@@ -18,9 +18,15 @@ const minioClient = new Client({
 });
 
 app.get('/dsvc/presignedUrl', (req, res) => {
+    const fileName = req.query.fileName as string;
+    if (!fileName) {
+        res.status(400).send("Missing fileName");
+        return;
+    }
+
     minioClient.presignedGetObject(
         process.env.MINIO_BUCKET!,
-        req.body.filename,
+        fileName,
         10 * 60 /* 10 minutes */,
         (err, presignedUrl) => {
             if (err) {
