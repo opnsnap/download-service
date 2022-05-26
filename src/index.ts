@@ -37,7 +37,7 @@ app.get('/dsvc/presignedUrl', (req, res) => {
             } else {
                 res.status(200);
                 res.send({
-                    url: presignedUrl
+                    url: presignedUrl.replace(`${process.env.MINIO_ENDPOINT!}:${process.env.MINIO_PORT!}`, process.env.DOMAIN!)
                 });
             }
             res.end();
